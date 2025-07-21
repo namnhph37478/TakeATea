@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TakeATea</string>
-</resources>
+
+        <string name="img_khach_hang">Ảnh khách hàng</string>
+        <string name="khach_hang_1">Khách hàng 1</string>
+        <string name="don_gia">Đơn giá: 0đ</string>
+        <string name="so_luong">Số lượng: 0</string>
+        <string name="danh_gia_kh">Đánh giá của KH</string>
+    </resources>
+
+
