@@ -1,0 +1,81 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Header -->
+    <LinearLayout
+        android:background="#FFEB3B"
+        android:padding="12dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/bg_dialog_rounded"/>
+
+        <TextView
+            android:text="Trà sữa Take a tea"
+            android:textStyle="bold"
+            android:layout_marginStart="12dp"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!-- Hình ảnh -->
+    <FrameLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/edittext_border"
+        android:layout_width="150dp"
+        android:layout_height="150dp">
+
+        <TextView
+            android:layout_gravity="center"
+            android:text="+\nThêm hình ảnh"
+            android:gravity="center"
+            android:textColor="#888"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <!-- Tên -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edittext_border"
+        android:hint="tên trà sữa" />
+
+    <!-- Số lượng -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Số lượng"
+        android:inputType="number" />
+
+    <!-- Dropdown -->
+    <Spinner
+        android:layout_width="381dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="12dp" />
+
+    <!-- Nút Lưu -->
+    <Button
+        android:text="Lưu"
+        android:textColor="#fff"
+        android:backgroundTint="#FFA000"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sửa khuyến mãi"
+            android:textSize="20sp"
+            android:background="#FFEB3B"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Mã khuyến mãi -->
+        <EditText
+            android:id="@+id/edtMaKM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mã KM"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:inputType="text" />
+
+        <!-- Phần trăm giảm -->
+        <EditText
+            android:id="@+id/edtPhanTramGiam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="giảm ? %"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:inputType="number" />
+
+        <!-- Spinner chọn món áp dụng -->
+        <Spinner
+            android:id="@+id/spinnerMonApDung"
+            android:layout_width="379dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp" />
+
+        <!-- Nút lưu -->
+        <Button
+            android:id="@+id/btnLuu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lưu"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#FFC107"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp" />
+    </LinearLayout>
+</ScrollView>

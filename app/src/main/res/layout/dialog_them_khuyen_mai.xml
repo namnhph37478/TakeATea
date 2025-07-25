@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm khuyến mãi"
+            android:textSize="20sp"
+            android:background="#FFEB3B"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Tên mã khuyến mãi -->
+        <EditText
+            android:id="@+id/edtTenKM"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="@drawable/bg_dialog_rounded"
+            android:hint="Tên khuyến mãi"
+            android:inputType="textCapWords"
+            android:padding="10dp" />
+
+        <!-- Mã KM -->
+        <EditText
+            android:id="@+id/edtMaKM"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_dialog_rounded"
+            android:hint="Mã KM"
+            android:inputType="text"
+            android:padding="10dp" />
+
+        <!-- Giảm giá -->
+        <EditText
+            android:id="@+id/edtPhanTramGiam"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_dialog_rounded"
+            android:hint="Giảm (%)"
+            android:inputType="number"
+            android:padding="10dp" />
+
+        <!-- Chọn món áp dụng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Áp dụng cho món:"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:layout_marginTop="12dp" />
+
+        <Spinner
+            android:id="@+id/spinnerMonAn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp" />
+
+        <!-- Nút thêm -->
+        <Button
+            android:id="@+id/btnThemKM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm"
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>

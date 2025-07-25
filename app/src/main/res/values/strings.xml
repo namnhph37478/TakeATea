@@ -1,11 +1,57 @@
 <resources>
     <string name="app_name">TakeATea</string>
 
+    //login
+    <string name="title_login">Đăng nhập</string>
+    <string name="logo_tea">Logo thương hiệu trà</string>
+    <string name="hint_username">Tên đăng nhập</string>
+    <string name="hint_password">Mật khẩu</string>
+    <string name="remember_password">Lưu mật khẩu</string>
+    <string name="btn_sign_in">Đăng nhập</string>
+    <string name="forgot_password">Quên mật khẩu?</string>
+
+    //regis
+    <string name="title_register">Đăng Ký</string>
+    <string name="label_fullname">Họ Tên</string>
+    <string name="hint_fullname">Nhập họ tên</string>
+    <string name="label_username">Tên Đăng nhập</string>
+    <string name="hint_username_regis">Nhập tên đăng nhập</string>
+    <string name="label_phone">SĐT</string>
+    <string name="hint_phone">Nhập số điện thoại</string>
+    <string name="label_password">Mật khẩu</string>
+    <string name="hint_password_regis">Nhập mật khẩu</string>
+    <string name="label_email">Email</string>
+    <string name="hint_email">Nhập địa chỉ email</string>
+    <string name="label_address">Địa chỉ</string>
+    <string name="hint_address">Nhập địa chỉ</string>
+    <string name="btn_register">Đăng ký</string>
+
         <string name="img_khach_hang">Ảnh khách hàng</string>
         <string name="khach_hang_1">Khách hàng 1</string>
         <string name="don_gia">Đơn giá: 0đ</string>
         <string name="so_luong">Số lượng: 0</string>
         <string name="danh_gia_kh">Đánh giá của KH</string>
-    </resources>
+
+    <string name="back">Back</string>
+    <string name="product_image">Ảnh sản phẩm</string>
+    <string name="product_name_sample">Trà sữa matcha</string>
+    <string name="product_price_sample">Giá: 30.000đ</string>
+    <string name="product_quantity_sample">Còn: 10 ly</string>
+
+        <string name="user_account_title">Tài khoản người dùng</string>
+        <string name="edit_info">Sửa thông tin</string>
+        <string name="full_name">Họ tên</string>
+        <string name="email">Email</string>
+        <string name="phone">Số điện thoại</string>
+        <string name="address">Địa chỉ</string>
+        <string name="logout">Đăng xuất</string>
+
+    //user sửa giỏ hàng
+    <string name="back_button">Nút quay lại</string>
+    <string name="cart_title">Trà sữa Take a tea</string>
+    <string name="hint_quantity">Số lượng</string>
+    <string name="btn_save">Lưu</string>
+
+</resources>
 
 

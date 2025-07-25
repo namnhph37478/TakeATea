@@ -1,0 +1,125 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F9F9F9"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center"
+            android:background="#FFEB3B"
+            android:text="Tài khoản Admin"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Họ tên -->
+
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="57dp"
+            android:layout_height="54dp"
+            android:layout_margin="16dp"
+            android:background="@android:drawable/ic_menu_edit"
+            android:contentDescription="Sửa thông tin" />
+
+        <TextView
+            android:text="Họ tên"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtAdminName"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Email -->
+        <TextView
+            android:text="Email"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtAdminEmail"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Số điện thoại -->
+        <TextView
+            android:text="Số điện thoại"
+            android:textStyle="bold"
+            android:textSize="20sp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtAdminPhone"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Địa chỉ -->
+        <TextView
+            android:text="Địa chỉ"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtAdminAddress"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
+            android:layout_height="wrap_content" />
+        <!-- Button: Quản lý khách hàng -->
+        <Button
+            android:id="@+id/btnManageCustomer"
+            android:text="Quản lý Khách hàng"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Button: Đăng xuất -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:text="Đăng xuất"
+            android:backgroundTint="#D32F2F"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Bottom Navigation -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:menu="@menu/menu_admin_bottom"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@null"
+            app:itemTextColor="#39008A"
+            android:background="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
