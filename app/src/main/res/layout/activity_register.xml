@@ -12,10 +12,10 @@
         android:gravity="center_horizontal">
 
         <TextView
-            android:layout_width="371dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="Đăng Ký"
+            android:text="@string/title_register"
             android:textSize="24sp"
             android:textStyle="bold"
             android:background="#FFEB3B"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Họ Tên"
+            android:text="@string/label_fullname"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -34,26 +34,29 @@
             android:id="@+id/edtFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Họ Tên"
+            android:hint="@string/hint_fullname"
             android:inputType="textPersonName"
+            android:autofillHints="name"
+            android:importantForAutofill="yes"
             android:background="@drawable/edittext_border"
             android:padding="12dp"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên Đăng nhập"
+            android:text="@string/label_username"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
-
 
         <EditText
             android:id="@+id/edtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tên Đăng nhập"
+            android:hint="@string/hint_username"
             android:inputType="text"
+            android:autofillHints="username"
+            android:importantForAutofill="yes"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginTop="8dp"/>
@@ -61,7 +64,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SĐT"
+            android:text="@string/label_phone"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -70,7 +73,10 @@
             android:id="@+id/edtphone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="SĐT"
+            android:hint="@string/hint_phone"
+            android:inputType="phone"
+            android:autofillHints="phone"
+            android:importantForAutofill="yes"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginTop="8dp" />
@@ -78,7 +84,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mât Khẩu"
+            android:text="@string/label_password"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -87,7 +93,10 @@
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mật khẩu"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"
+            android:autofillHints="password"
+            android:importantForAutofill="yes"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginTop="8dp"/>
@@ -95,7 +104,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Email"
+            android:text="@string/label_email"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -104,7 +113,10 @@
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress"
+            android:autofillHints="emailAddress"
+            android:importantForAutofill="yes"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
             android:layout_marginTop="8dp"/>
@@ -113,26 +125,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Địa chỉ"
+            android:text="@string/label_address"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold" />
-
 
         <EditText
             android:id="@+id/edtAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_border"
-            android:hint="Địa chỉ"
+            android:hint="@string/hint_address"
+            android:inputType="textPostalAddress"
+            android:autofillHints="postalAddress"
+            android:importantForAutofill="yes"
             android:padding="12dp" />
-
 
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="@string/btn_register"
             android:layout_marginTop="16dp"
             android:backgroundTint="#000000"
             android:textColor="#FFFFFF" />

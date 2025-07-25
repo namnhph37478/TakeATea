@@ -12,10 +12,10 @@
         android:gravity="center_horizontal">
 
         <TextView
-            android:layout_width="371dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Đăng nhập"
+            android:text="@string/title_login"
             android:textAlignment="center"
             android:textColor="#B71C1C"
             android:background="#FFEB3B"
@@ -26,39 +26,45 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:src="@drawable/ic_tea_logo"
+            android:contentDescription="@string/logo_tea"
             android:layout_marginBottom="24dp" />
 
         <EditText
             android:id="@+id/edtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="tên đăng nhập"
+            android:hint="@string/hint_username"
             android:background="@drawable/edittext_border"
             android:inputType="textEmailAddress"
-            android:padding="12dp" />
+            android:autofillHints="username"
+            android:padding="12dp"
+            android:importantForAutofill="yes" />
 
         <EditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/hint_password"
             android:inputType="textPassword"
+            android:autofillHints="password"
+            android:importantForAutofill="yes"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp" />
 
         <CheckBox
             android:id="@+id/chkRemember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lưu Mật Khẩu"
+            android:minHeight="48dp"
+            android:text="@string/remember_password"
             android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign in"
+            android:text="@string/btn_sign_in"
             android:layout_marginTop="16dp"
             android:backgroundTint="#000000"
             android:textColor="#FFFFFF" />
@@ -67,9 +73,9 @@
             android:id="@+id/tvForgotPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quên mật khẩu?"
-            android:textColor="#1E88E5"
-            android:layout_marginTop="16dp" />
+            android:text="@string/forgot_password"
+            android:textColor="#0D47A1"
+        android:layout_marginTop="16dp" />
 
     </LinearLayout>
 </ScrollView>
