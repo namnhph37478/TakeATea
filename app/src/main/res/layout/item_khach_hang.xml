@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginHorizontal="8dp"
+    android:elevation="4dp"
+    android:padding="12dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Tên khách -->
+        <TextView
+            android:id="@+id/tvTenKhachHang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tên khách hàng"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <!-- Số điện thoại -->
+        <TextView
+            android:id="@+id/tvSDTKhach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SĐT: 0123456789"
+            android:textSize="14sp" />
+
+        <!-- Địa chỉ -->
+        <TextView
+            android:id="@+id/tvDiaChiKhach"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Địa chỉ: 123 Lê Lợi, Q.1"
+            android:textSize="14sp" />
+
+        <!-- Trạng thái -->
+        <TextView
+            android:id="@+id/tvTrangThai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trạng thái: Hoạt động"
+            android:textColor="#388E3C"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Nút thao tác -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/btnEditKhach"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Sửa" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteKhach"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
+                android:src="@android:drawable/ic_menu_delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Xóa" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

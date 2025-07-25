@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#F5F5F5"
+    android:padding="8dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Ảnh đại diện đơn hàng -->
+    <ImageView
+        android:id="@+id/imgOrderThumbnail"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="Order Image" />
+
+    <!-- Thông tin đơn -->
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvOrderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên đơn hàng"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvOrderPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá: 0đ"
+            android:textSize="14sp"
+            android:textColor="#555555" />
+
+        <TextView
+            android:id="@+id/tvOrderQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số lượng: "
+            android:textSize="14sp"
+            android:textColor="#555555" />
+    </LinearLayout>
+
+    <!-- Icon trạng thái đơn -->
+    <ImageView
+        android:id="@+id/imgOrderStatus"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_stats"
+        android:contentDescription="Order Status"
+        android:layout_marginStart="8dp" />
+</LinearLayout>

@@ -2,28 +2,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_user_home"
-        android:title="Trang chủ"
-        android:icon="@drawable/ic_home" />
+        android:id="@+id/menu_trang_chu"
+        android:icon="@drawable/ic_home"
+        android:title="Trang chủ" />
 
     <item
-        android:id="@+id/menu_user_cart"
-        android:title="Giỏ hàng"
-        android:icon="@drawable/ic_cart" />
+        android:id="@+id/menu_gio_hang"
+        android:icon="@drawable/ic_cart"
+        android:title="Giỏ hàng" />
 
     <item
-        android:id="@+id/menu_user_orders"
-        android:title="Lịch sử đơn"
-        android:icon="@drawable/ic_order" />
+        android:id="@+id/menu_lich_su"
+        android:icon="@drawable/ic_order"
+        android:title="Lịch sử đơn" />
 
     <item
-        android:id="@+id/menu_user_contact"
-        android:title="Liên hệ"
-        android:icon="@drawable/ic_message" />
+        android:id="@+id/menu_lien_he"
+        android:icon="@drawable/ic_message"
+        android:title="Liên hệ" />
 
     <item
-        android:id="@+id/menu_user_profile"
-        android:title="Tài khoản"
-        android:icon="@drawable/ic_profile" />
-
+        android:id="@+id/menu_tai_khoan"
+        android:icon="@drawable/ic_user"
+        android:title="Tài khoản" />
 </menu>
