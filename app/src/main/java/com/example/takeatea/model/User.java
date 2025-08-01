@@ -6,29 +6,37 @@ public class User {
     private String password;
     private String fullname;
     private String phone;
+    private String email;
+    private String address;
     private String role;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String fullname, String phone, String role) {
+    // Constructor đầy đủ
+    public User(int id, String username, String password, String fullname, String phone, String email, String address, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.phone = phone;
+        this.email = email;
+        this.address = address;
         this.role = role;
     }
 
-    public User(String username, String password, String fullname, String phone, String role) {
+    // Constructor không có id (dùng khi thêm mới)
+    public User(String username, String password, String fullname, String phone, String email, String address, String role) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
         this.phone = phone;
+        this.email = email;
+        this.address = address;
         this.role = role;
     }
 
-    // Getters and setters
+    // Getters & Setters
     public int getId() {
         return id;
     }
@@ -67,6 +75,22 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getRole() {

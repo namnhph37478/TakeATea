@@ -2,27 +2,30 @@ package com.example.takeatea.model;
 
 public class Review {
     private int id;
-    private int userId;      // Liên kết với bảng User
-    private int productId;   // Liên kết với bảng Product
-    private int rating;      // Số sao (1 đến 5)
-    private String comment;  // Nội dung đánh giá
+    private int userId;
+    private int productId;
+    private int rating;
+    private String comment;
+    private String date; // ➕ Thêm ngày đánh giá
 
     public Review() {
     }
 
-    public Review(int userId, int productId, int rating, String comment) {
+    public Review(int userId, int productId, int rating, String comment, String date) {
         this.userId = userId;
         this.productId = productId;
         this.rating = rating;
         this.comment = comment;
+        this.date = date;
     }
 
-    public Review(int id, int userId, int productId, int rating, String comment) {
+    public Review(int id, int userId, int productId, int rating, String comment, String date) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
         this.rating = rating;
         this.comment = comment;
+        this.date = date;
     }
 
     // Getters và Setters
@@ -64,5 +67,13 @@ public class Review {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

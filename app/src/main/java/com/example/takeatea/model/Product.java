@@ -5,30 +5,41 @@ public class Product {
     private String name;
     private double price;
     private String description;
-    private String image; // lưu tên file hoặc đường dẫn ảnh
-    private int categoryId; // khóa ngoại đến bảng Category
+    private String image;       // Đường dẫn ảnh
+    private int categoryId;     // ID danh mục
+    private int quantity;       // Số lượng tồn
+    private int status;         // 1: đang bán, 0: ngừng bán
+    private float rating;       // điểm đánh giá trung bình (0-5)
 
     public Product() {
     }
 
-    public Product(int id, String name, double price, String description, String image, int categoryId) {
+    // Constructor đầy đủ
+    public Product(int id, String name, double price, String description, String image, int categoryId, int quantity, int status, float rating) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.image = image;
         this.categoryId = categoryId;
+        this.quantity = quantity;
+        this.status = status;
+        this.rating = rating;
     }
 
-    public Product(String name, double price, String description, String image, int categoryId) {
+    // Constructor không có ID (dùng khi thêm mới)
+    public Product(String name, double price, String description, String image, int categoryId, int quantity, int status, float rating) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.image = image;
         this.categoryId = categoryId;
+        this.quantity = quantity;
+        this.status = status;
+        this.rating = rating;
     }
 
-    // Getters and setters
+    // Getters và Setters
     public int getId() {
         return id;
     }
@@ -75,5 +86,29 @@ public class Product {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }
