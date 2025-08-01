@@ -16,7 +16,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TẠO BẢNG USER
+        // Bảng User
         db.execSQL("CREATE TABLE User (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT UNIQUE NOT NULL, " +
@@ -25,49 +25,56 @@ public class DbHelper extends SQLiteOpenHelper {
                 "phone TEXT, " +
                 "role TEXT NOT NULL)");
 
-        // TẠO BẢNG SẢN PHẨM
+        // Bảng Product
         db.execSQL("CREATE TABLE Product (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT NOT NULL, " +
                 "price REAL NOT NULL, " +
+                "description TEXT, " +
                 "image TEXT, " +
-                "description TEXT)");
+                "categoryId INTEGER, " +
+                "quantity INTEGER DEFAULT 0, " +
+                "status INTEGER DEFAULT 1, " +
+                "rating REAL DEFAULT 0)");
 
-        // TẠO BẢNG KHUYẾN MÃI
+        // Bảng Promotion
         db.execSQL("CREATE TABLE Promotion (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "title TEXT NOT NULL, " +
-                "discount_percent INTEGER NOT NULL)");
+                "code TEXT UNIQUE, " +
+                "discountPercent INTEGER)");
 
-        // TẠO BẢNG LIÊN KẾT SẢN PHẨM - KHUYẾN MÃI
+        // Bảng PromotionProduct
         db.execSQL("CREATE TABLE PromotionProduct (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "product_id INTEGER REFERENCES Product(id), " +
-                "promotion_id INTEGER REFERENCES Promotion(id))");
+                "promotionId INTEGER, " +
+                "productId INTEGER, " +
+                "FOREIGN KEY (promotionId) REFERENCES Promotion(id), " +
+                "FOREIGN KEY (productId) REFERENCES Product(id))");
 
-        // TẠO BẢNG GIỎ HÀNG
-        db.execSQL("CREATE TABLE Cart (" +
+        // Bảng CartTable
+        db.execSQL("CREATE TABLE CartTable (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "user_id INTEGER REFERENCES User(id), " +
-                "product_id INTEGER REFERENCES Product(id), " +
-                "quantity INTEGER NOT NULL)");
+                "userId INTEGER REFERENCES User(id), " +
+                "productId INTEGER REFERENCES Product(id), " +
+                "quantity INTEGER)");
 
-        // TẠO BẢNG ĐƠN HÀNG
+        // Bảng OrderTable
         db.execSQL("CREATE TABLE OrderTable (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "user_id INTEGER REFERENCES User(id), " +
-                "order_date TEXT, " +
-                "total REAL)");
+                "userId INTEGER REFERENCES User(id), " +
+                "orderDate TEXT, " +
+                "totalAmount REAL, " +
+                "status TEXT)");
 
-        // TẠO BẢNG CHI TIẾT ĐƠN HÀNG
-        db.execSQL("CREATE TABLE OrderDetail (" +
+        // Bảng OrderDetailTable
+        db.execSQL("CREATE TABLE OrderDetailTable (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "order_id INTEGER REFERENCES OrderTable(id), " +
-                "product_id INTEGER REFERENCES Product(id), " +
+                "orderId INTEGER REFERENCES OrderTable(id), " +
+                "productId INTEGER REFERENCES Product(id), " +
                 "quantity INTEGER, " +
                 "price REAL)");
 
-        // TẠO BẢNG ĐÁNH GIÁ
+        // Bảng Review
         db.execSQL("CREATE TABLE Review (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER REFERENCES User(id), " +
@@ -75,33 +82,35 @@ public class DbHelper extends SQLiteOpenHelper {
                 "content TEXT, " +
                 "rating INTEGER)");
 
-        // TẠO BẢNG LIÊN HỆ
+        // Bảng Contact
         db.execSQL("CREATE TABLE Contact (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "user_id INTEGER REFERENCES User(id), " +
-                "message TEXT)");
+                "userId INTEGER REFERENCES User(id), " +
+                "subject TEXT, " +
+                "message TEXT, " +
+                "createdAt TEXT)");
 
-        insertInitialData(db); // Chèn dữ liệu mẫu
+        insertInitialData(db); // Thêm dữ liệu mẫu
     }
 
     private void insertInitialData(SQLiteDatabase db) {
-        // Thêm admin và người dùng mẫu
+        // Thêm user mẫu
         db.execSQL("INSERT INTO User (username, password, fullname, phone, role) VALUES " +
                 "('admin', 'admin123', 'Quản trị viên', '0123456789', 'admin')," +
                 "('user1', 'user123', 'Nguyễn Văn A', '0987654321', 'user')");
 
         // Thêm sản phẩm mẫu
-        db.execSQL("INSERT INTO Product (name, price, image, description) VALUES " +
-                "('Trà Sữa Truyền Thống', 25000, 'image_trasua1.png', 'Hương vị truyền thống')," +
-                "('Trà Sữa Matcha', 30000, 'image_trasua2.png', 'Thơm ngon vị matcha')");
+        db.execSQL("INSERT INTO Product (name, price, description, image, categoryId, quantity, status, rating) VALUES " +
+                "('Trà Sữa Truyền Thống', 25000, 'Hương vị truyền thống', 'image_trasua1.png', 1, 100, 1, 4.5)," +
+                "('Trà Sữa Matcha', 30000, 'Thơm ngon vị matcha', 'image_trasua2.png', 1, 80, 1, 4.2)");
 
         // Thêm khuyến mãi mẫu
-        db.execSQL("INSERT INTO Promotion (title, discount_percent) VALUES " +
-                "('Khuyến mãi hè', 10)," +
-                "('Giảm giá sinh nhật', 20)");
+        db.execSQL("INSERT INTO Promotion (code, discountPercent) VALUES " +
+                "('KMHE10', 10)," +
+                "('SN20', 20)");
 
-        // Liên kết khuyến mãi với sản phẩm
-        db.execSQL("INSERT INTO PromotionProduct (product_id, promotion_id) VALUES (1, 1), (2, 2)");
+        // Thêm liên kết khuyến mãi với sản phẩm
+        db.execSQL("INSERT INTO PromotionProduct (promotionId, productId) VALUES (1, 1), (2, 2)");
 
         // Thêm đánh giá mẫu
         db.execSQL("INSERT INTO Review (user_id, product_id, content, rating) VALUES " +
@@ -109,23 +118,22 @@ public class DbHelper extends SQLiteOpenHelper {
                 "(2, 2, 'Hơi ngọt nhưng thơm', 4)");
 
         // Thêm liên hệ mẫu
-        db.execSQL("INSERT INTO Contact (user_id, message) VALUES " +
-                "(2, 'Ứng dụng rất dễ sử dụng!')");
+        db.execSQL("INSERT INTO Contact (userId, subject, message, createdAt) VALUES " +
+                "(2, 'Góp ý ứng dụng', 'Ứng dụng rất dễ sử dụng!', '2025-07-31 10:00:00')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Xoá bảng cũ nếu có
         db.execSQL("DROP TABLE IF EXISTS User");
         db.execSQL("DROP TABLE IF EXISTS Product");
         db.execSQL("DROP TABLE IF EXISTS Promotion");
         db.execSQL("DROP TABLE IF EXISTS PromotionProduct");
-        db.execSQL("DROP TABLE IF EXISTS Cart");
+        db.execSQL("DROP TABLE IF EXISTS CartTable");
         db.execSQL("DROP TABLE IF EXISTS OrderTable");
-        db.execSQL("DROP TABLE IF EXISTS OrderDetail");
+        db.execSQL("DROP TABLE IF EXISTS OrderDetailTable");
         db.execSQL("DROP TABLE IF EXISTS Review");
         db.execSQL("DROP TABLE IF EXISTS Contact");
 
-        onCreate(db); // Tạo lại bảng
+        onCreate(db); // Tạo lại
     }
 }
