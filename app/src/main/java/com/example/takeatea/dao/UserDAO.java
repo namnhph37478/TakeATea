@@ -13,8 +13,10 @@ import java.util.ArrayList;
 public class UserDAO {
     private SQLiteDatabase db;
 
+    private DbHelper dbHelper;
+
     public UserDAO(Context context) {
-        DbHelper dbHelper = new DbHelper(context);
+        this.dbHelper = new DbHelper(context);
         db = dbHelper.getWritableDatabase();
     }
 
@@ -87,13 +89,44 @@ public class UserDAO {
     private User getUserFromCursor(Cursor cursor) {
         User user = new User();
         user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-        user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("full_name")));
+        user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
         user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
         user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
-        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("email")));
         user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
-        user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
         user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("role")));
         return user;
     }
+
+    public boolean insertUser(User user) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("username", user.getUsername());
+        values.put("password", user.getPassword());
+        values.put("fullname", user.getFullname());
+        values.put("phone", user.getPhone());
+        values.put("role", user.getRole());
+
+        long result = db.insert("User", null, values);
+        return result != -1;
+    }
+
+    public User getUserByUsername(String username) {
+        Cursor cursor = db.rawQuery("SELECT * FROM User WHERE username = ?", new String[]{username});
+        if (cursor != null && cursor.moveToFirst()) {
+            User user = new User();
+            user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+            user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
+            user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
+            user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
+            user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
+            user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("role")));
+            cursor.close();
+            return user;
+        }
+        if (cursor != null) cursor.close();
+        return null;
+    }
+
+
+
 }

@@ -10,18 +10,22 @@ import com.example.takeatea.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DELAY = 3000;
+    private static final int SPLASH_DURATION = 5000; // 5 giây
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.splash_activity);
 
-        new Handler().postDelayed(() -> {
-            // Chuyển sang màn hình đăng nhập
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish(); // kết thúc Splash
-        }, SPLASH_DELAY);
+        // Delay 5 giây rồi chuyển sang LoginActivity
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Sau khi splash xong, chuyển sang màn hình đăng nhập
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish(); // Đóng splash screen để không quay lại được
+            }
+        }, SPLASH_DURATION);
     }
 }
