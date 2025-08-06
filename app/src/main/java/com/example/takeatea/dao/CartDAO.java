@@ -17,31 +17,36 @@ public class CartDAO {
         dbHelper = new DbHelper(context);
     }
 
-    // Thêm sản phẩm vào giỏ hàng (nếu đã có thì cập nhật số lượng)
-    public boolean addToCart(Cart cart) {
+    /**
+     * Thêm vào giỏ hoặc cập nhật số lượng nếu đã tồn tại
+     */
+    public boolean insertOrUpdate(Cart cart) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // Kiểm tra nếu đã có productId + userId thì update
-        Cursor cursor = db.rawQuery("SELECT * FROM CartTable WHERE userId = ? AND productId = ?",
+        Cursor cursor = db.rawQuery("SELECT quantity FROM CartTable WHERE userId = ? AND productId = ?",
                 new String[]{String.valueOf(cart.getUserId()), String.valueOf(cart.getProductId())});
 
         if (cursor.moveToFirst()) {
-            // Cập nhật quantity
+            // Đã có → cập nhật số lượng mới
             int oldQty = cursor.getInt(cursor.getColumnIndexOrThrow("quantity"));
+            int newQty = oldQty + cart.getQuantity();
+
             ContentValues values = new ContentValues();
-            values.put("quantity", oldQty + cart.getQuantity());
+            values.put("quantity", newQty);
 
             int result = db.update("CartTable", values, "userId = ? AND productId = ?",
                     new String[]{String.valueOf(cart.getUserId()), String.valueOf(cart.getProductId())});
+
             cursor.close();
             db.close();
             return result > 0;
         } else {
-            // Thêm mới
+            // Chưa có → thêm mới
             ContentValues values = new ContentValues();
             values.put("userId", cart.getUserId());
             values.put("productId", cart.getProductId());
             values.put("quantity", cart.getQuantity());
+
             long result = db.insert("CartTable", null, values);
             cursor.close();
             db.close();
@@ -49,10 +54,13 @@ public class CartDAO {
         }
     }
 
-    // Lấy danh sách giỏ hàng theo userId
+    /**
+     * Lấy danh sách sản phẩm trong giỏ theo userId
+     */
     public ArrayList<Cart> getCartByUserId(int userId) {
         ArrayList<Cart> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+
         Cursor cursor = db.rawQuery("SELECT * FROM CartTable WHERE userId = ?", new String[]{String.valueOf(userId)});
         if (cursor.moveToFirst()) {
             do {
@@ -69,7 +77,9 @@ public class CartDAO {
         return list;
     }
 
-    // Cập nhật số lượng sản phẩm trong giỏ
+    /**
+     * Cập nhật số lượng sản phẩm trong giỏ
+     */
     public boolean updateQuantity(int userId, int productId, int newQuantity) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -81,7 +91,9 @@ public class CartDAO {
         return result > 0;
     }
 
-    // Xoá sản phẩm khỏi giỏ
+    /**
+     * Xóa một sản phẩm khỏi giỏ hàng
+     */
     public boolean deleteItem(int userId, int productId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = db.delete("CartTable", "userId = ? AND productId = ?",
@@ -90,7 +102,9 @@ public class CartDAO {
         return result > 0;
     }
 
-    // Xoá toàn bộ giỏ hàng theo userId
+    /**
+     * Xóa toàn bộ giỏ hàng của người dùng
+     */
     public boolean clearCart(int userId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = db.delete("CartTable", "userId = ?", new String[]{String.valueOf(userId)});

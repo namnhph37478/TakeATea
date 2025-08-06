@@ -11,13 +11,14 @@ import com.example.takeatea.model.Order;
 import java.util.ArrayList;
 
 public class OrderDAO {
-    private DbHelper dbHelper;
+
+    private final DbHelper dbHelper;
 
     public OrderDAO(Context context) {
         dbHelper = new DbHelper(context);
     }
 
-    // Thêm đơn hàng
+    // ✅ Thêm đơn hàng mới
     public boolean insert(Order order) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -32,7 +33,22 @@ public class OrderDAO {
         return result != -1;
     }
 
-    // Cập nhật đơn hàng
+    // ✅ Lấy ID đơn hàng vừa tạo gần nhất (cho user đang đặt)
+    public int getLastOrderId() {
+        int orderId = -1;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT id FROM OrderTable ORDER BY id DESC LIMIT 1", null);
+        if (cursor.moveToFirst()) {
+            orderId = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+        return orderId;
+    }
+
+    // ✅ Cập nhật đơn hàng
     public boolean update(Order order) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -47,7 +63,7 @@ public class OrderDAO {
         return result > 0;
     }
 
-    // Xoá đơn hàng
+    // ✅ Xoá đơn hàng
     public boolean delete(int id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = db.delete("OrderTable", "id = ?", new String[]{String.valueOf(id)});
@@ -55,11 +71,11 @@ public class OrderDAO {
         return result > 0;
     }
 
-    // Lấy tất cả đơn hàng
+    // ✅ Lấy tất cả đơn hàng (Admin)
     public ArrayList<Order> getAll() {
         ArrayList<Order> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM OrderTable", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM OrderTable ORDER BY id DESC", null);
         if (cursor.moveToFirst()) {
             do {
                 list.add(getOrderFromCursor(cursor));
@@ -70,11 +86,12 @@ public class OrderDAO {
         return list;
     }
 
-    // Lấy đơn hàng theo userId
+    // ✅ Lấy đơn hàng theo userId (User)
     public ArrayList<Order> getByUserId(int userId) {
         ArrayList<Order> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM OrderTable WHERE userId = ?", new String[]{String.valueOf(userId)});
+        Cursor cursor = db.rawQuery("SELECT * FROM OrderTable WHERE userId = ? ORDER BY id DESC",
+                new String[]{String.valueOf(userId)});
         if (cursor.moveToFirst()) {
             do {
                 list.add(getOrderFromCursor(cursor));
@@ -85,7 +102,7 @@ public class OrderDAO {
         return list;
     }
 
-    // Lấy đơn hàng theo id
+    // ✅ Lấy đơn hàng theo id
     public Order getById(int id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM OrderTable WHERE id = ?", new String[]{String.valueOf(id)});
@@ -98,7 +115,7 @@ public class OrderDAO {
         return order;
     }
 
-    // Helper: lấy Order từ Cursor
+    // Helper: lấy đối tượng Order từ Cursor
     private Order getOrderFromCursor(Cursor cursor) {
         return new Order(
                 cursor.getInt(cursor.getColumnIndexOrThrow("id")),

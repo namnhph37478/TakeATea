@@ -138,4 +138,14 @@ public class ProductDAO {
                 cursor.getFloat(cursor.getColumnIndexOrThrow("rating"))
         );
     }
+
+    public boolean updateQuantity(int productId, int newQuantity) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("quantity", newQuantity);
+        int result = db.update("Product", values, "id = ?", new String[]{String.valueOf(productId)});
+        db.close();
+        return result > 0;
+    }
+
 }
