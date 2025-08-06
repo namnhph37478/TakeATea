@@ -38,7 +38,8 @@
             android:inputType="textEmailAddress"
             android:autofillHints="username"
             android:padding="12dp"
-            android:importantForAutofill="yes" />
+            android:importantForAutofill="yes"
+            android:text="nam1311"/>
 
         <EditText
             android:id="@+id/edtPassword"
@@ -50,7 +51,8 @@
             android:importantForAutofill="yes"
             android:padding="12dp"
             android:background="@drawable/edittext_border"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:text="13112004"/>
 
         <CheckBox
             android:id="@+id/chkRemember"

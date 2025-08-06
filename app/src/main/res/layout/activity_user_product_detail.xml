@@ -57,4 +57,24 @@
         android:textSize="14sp"
         android:textColor="#555555"
         android:layout_marginTop="4dp" />
+
+    <!-- Nhập số lượng muốn mua -->
+    <EditText
+        android:id="@+id/edtQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập số lượng"
+        android:inputType="number"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Nút thêm vào giỏ -->
+    <Button
+        android:id="@+id/btnAddToCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm vào giỏ"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FF9800"
+        android:textColor="#FFFFFF"/>
+
 </LinearLayout>
