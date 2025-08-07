@@ -27,7 +27,11 @@
 
         <activity android:name=".activity.MainUserActivity"
             android:exported="false"/>
-        <activity android:name=".activity.UserProductDetailActivity" />
+        <activity android:name=".activity.UserProductDetailActivity"
+            android:exported="false"/>
+
+        <activity android:name=".activity.OrderDetailActivity"
+            android:exported="false"/>
     </application>
 
 

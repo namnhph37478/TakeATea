@@ -11,13 +11,16 @@ import com.example.takeatea.model.OrderDetail;
 import java.util.ArrayList;
 
 public class OrderDetailDAO {
-    private DbHelper dbHelper;
+
+    private final DbHelper dbHelper;
 
     public OrderDetailDAO(Context context) {
         dbHelper = new DbHelper(context);
     }
 
-    // Thêm chi tiết đơn hàng
+    /**
+     * Thêm chi tiết đơn hàng
+     */
     public boolean insert(OrderDetail detail) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -32,22 +35,28 @@ public class OrderDetailDAO {
         return result != -1;
     }
 
-    // Lấy toàn bộ chi tiết của 1 đơn hàng
+    /**
+     * Lấy toàn bộ chi tiết đơn hàng theo orderId
+     */
     public ArrayList<OrderDetail> getByOrderId(int orderId) {
         ArrayList<OrderDetail> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+
         Cursor cursor = db.rawQuery("SELECT * FROM OrderDetailTable WHERE orderId = ?", new String[]{String.valueOf(orderId)});
         if (cursor.moveToFirst()) {
             do {
                 list.add(getFromCursor(cursor));
             } while (cursor.moveToNext());
         }
+
         cursor.close();
         db.close();
         return list;
     }
 
-    // Xoá chi tiết đơn hàng theo id
+    /**
+     * Xóa chi tiết đơn hàng theo ID dòng
+     */
     public boolean delete(int id) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = db.delete("OrderDetailTable", "id = ?", new String[]{String.valueOf(id)});
@@ -55,7 +64,9 @@ public class OrderDetailDAO {
         return result > 0;
     }
 
-    // Xoá tất cả chi tiết theo orderId
+    /**
+     * Xóa tất cả chi tiết theo orderId
+     */
     public boolean deleteByOrderId(int orderId) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int result = db.delete("OrderDetailTable", "orderId = ?", new String[]{String.valueOf(orderId)});
@@ -63,7 +74,9 @@ public class OrderDetailDAO {
         return result > 0;
     }
 
-    // Helper: chuyển Cursor thành đối tượng OrderDetail
+    /**
+     * Helper: tạo OrderDetail từ Cursor
+     */
     private OrderDetail getFromCursor(Cursor cursor) {
         return new OrderDetail(
                 cursor.getInt(cursor.getColumnIndexOrThrow("id")),

@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Đánh giá đơn hàng"
+        android:text="Đánh giá sản phẩm"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
@@ -27,7 +27,7 @@
         android:id="@+id/edtComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nhập ý kiến của bạn..."
+        android:hint="Nhập nhận xét của bạn..."
         android:minLines="3"
         android:gravity="top"
         android:background="@drawable/bg_dialog_rounded" />

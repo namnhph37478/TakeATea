@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,10 +20,13 @@ import com.example.takeatea.R;
 import com.example.takeatea.dao.UserDAO;
 import com.example.takeatea.dialog.ForgotPasswordDialog;
 import com.example.takeatea.model.User;
+import com.example.takeatea.utils.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText edtUsername, edtPassword;
+    private ImageButton btnTogglePassword;
+    private boolean isPasswordVisible = false;
     private CheckBox chkRemember;
     private Button btnLogin;
     private TextView tvForgotPassword, tvRegisterLink;
@@ -37,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         // Ánh xạ view
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
+        btnTogglePassword = findViewById(R.id.btnTogglePassword);
         chkRemember = findViewById(R.id.chkRemember);
         tvRegisterLink = findViewById(R.id.tvRegisterLink);
         btnLogin = findViewById(R.id.btnLogin);
@@ -45,28 +51,39 @@ public class LoginActivity extends AppCompatActivity {
         userDAO = new UserDAO(this);
         sharedPreferences = getSharedPreferences("USER_FILE", Context.MODE_PRIVATE);
 
-        // Load thông tin nếu đã lưu
-        loadRememberedUser();
-
-        // Xử lý nút Đăng nhập
-        btnLogin.setOnClickListener(v -> login());
-
-        //xu ly "Đăng ký"
-        tvRegisterLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+        // Thiết lập chế độ ẩn hiện mật khẩu
+        btnTogglePassword.setOnClickListener(v -> {
+            if (isPasswordVisible) {
+                // Ẩn mật khẩu
+                edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                btnTogglePassword.setImageResource(R.drawable.ic_eye_closed);
+            } else {
+                // Hiện mật khẩu
+                edtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                btnTogglePassword.setImageResource(R.drawable.ic_eye_open);
             }
+            isPasswordVisible = !isPasswordVisible;
+            // Di chuyển con trỏ về cuối văn bản
+            edtPassword.setSelection(edtPassword.getText().length());
         });
 
-        // Xử lý "Quên mật khẩu"
-        TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        // Load thông tin nếu đã ghi nhớ
+        loadRememberedUser();
+
+        // Sự kiện đăng nhập
+        btnLogin.setOnClickListener(v -> login());
+
+        // Sự kiện mở trang đăng ký
+        tvRegisterLink.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        // Quên mật khẩu
         tvForgotPassword.setOnClickListener(v -> {
             ForgotPasswordDialog dialog = new ForgotPasswordDialog(LoginActivity.this);
             dialog.show();
         });
-
     }
 
     private void login() {
@@ -78,8 +95,6 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-
-
         User user = userDAO.login(username, password);
         if (user != null) {
             // Ghi nhớ nếu có chọn
@@ -89,11 +104,15 @@ public class LoginActivity extends AppCompatActivity {
                 clearRememberedUser();
             }
 
+            // 🔐 Tạo phiên đăng nhập
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.createLoginSession(user.getId(), user.getUsername(), user.getRole());
+
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-            // Điều hướng theo vai trò
+            // 👉 Điều hướng theo vai trò
             if ("admin".equalsIgnoreCase(user.getRole())) {
-                startActivity(new Intent(this, MainAdminActivity.class)); // nếu có layout riêng cho admin
+                startActivity(new Intent(this, MainAdminActivity.class));
             } else {
                 startActivity(new Intent(this, MainUserActivity.class));
             }
@@ -103,7 +122,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Tài khoản hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void rememberUser(String username, String password) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

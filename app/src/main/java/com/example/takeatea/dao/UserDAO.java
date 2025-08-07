@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class UserDAO {
     private SQLiteDatabase db;
-
     private DbHelper dbHelper;
 
     public UserDAO(Context context) {
@@ -33,7 +32,7 @@ public class UserDAO {
     // Đăng ký
     public boolean register(User user) {
         ContentValues values = new ContentValues();
-        values.put("full_name", user.getFullname());
+        values.put("fullname", user.getFullname());
         values.put("username", user.getUsername());
         values.put("password", user.getPassword());
         values.put("email", user.getEmail());
@@ -54,10 +53,10 @@ public class UserDAO {
         return null;
     }
 
-    // Cập nhật thông tin
+    // Cập nhật thông tin người dùng
     public boolean updateUser(User user) {
         ContentValues values = new ContentValues();
-        values.put("full_name", user.getFullname());
+        values.put("fullname", user.getFullname());
         values.put("password", user.getPassword());
         values.put("email", user.getEmail());
         values.put("phone", user.getPhone());
@@ -67,7 +66,7 @@ public class UserDAO {
         return result > 0;
     }
 
-    // Lấy tất cả user (chỉ dùng cho admin)
+    // Lấy tất cả user (admin)
     public ArrayList<User> getAllUsers() {
         ArrayList<User> list = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM User", null);
@@ -79,47 +78,17 @@ public class UserDAO {
         return list;
     }
 
-    // Xoá user (nếu cần)
+    // Xoá user
     public boolean deleteUser(int id) {
         int result = db.delete("User", "id=?", new String[]{String.valueOf(id)});
         return result > 0;
     }
 
-    // Hàm tiện ích đọc dữ liệu từ Cursor
-    private User getUserFromCursor(Cursor cursor) {
-        User user = new User();
-        user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-        user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
-        user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
-        user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
-        user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
-        user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("role")));
-        return user;
-    }
-
-    public boolean insertUser(User user) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("username", user.getUsername());
-        values.put("password", user.getPassword());
-        values.put("fullname", user.getFullname());
-        values.put("phone", user.getPhone());
-        values.put("role", user.getRole());
-
-        long result = db.insert("User", null, values);
-        return result != -1;
-    }
-
+    // Lấy user theo tên
     public User getUserByUsername(String username) {
         Cursor cursor = db.rawQuery("SELECT * FROM User WHERE username = ?", new String[]{username});
         if (cursor != null && cursor.moveToFirst()) {
-            User user = new User();
-            user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-            user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
-            user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
-            user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
-            user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
-            user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("role")));
+            User user = getUserFromCursor(cursor);
             cursor.close();
             return user;
         }
@@ -127,6 +96,32 @@ public class UserDAO {
         return null;
     }
 
+    // Hàm tiện ích lấy user từ Cursor
+    private User getUserFromCursor(Cursor cursor) {
+        User user = new User();
+        user.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+        user.setUsername(cursor.getString(cursor.getColumnIndexOrThrow("username")));
+        user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
+        user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
+        user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
+        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("email")));     // ✅ bổ sung
+        user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address"))); // ✅ bổ sung
+        user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("role")));
+        return user;
+    }
 
+    // Thêm mới user thủ công
+    public boolean insertUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put("username", user.getUsername());
+        values.put("password", user.getPassword());
+        values.put("fullname", user.getFullname());
+        values.put("email", user.getEmail());
+        values.put("phone", user.getPhone());
+        values.put("address", user.getAddress());
+        values.put("role", user.getRole());
 
+        long result = db.insert("User", null, values);
+        return result != -1;
+    }
 }

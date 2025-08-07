@@ -38,21 +38,37 @@
             android:inputType="textEmailAddress"
             android:autofillHints="username"
             android:padding="12dp"
-            android:importantForAutofill="yes"
-            android:text="nam1311"/>
+            android:importantForAutofill="yes"/>
 
-        <EditText
-            android:id="@+id/edtPassword"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_password"
-            android:inputType="textPassword"
-            android:autofillHints="password"
-            android:importantForAutofill="yes"
-            android:padding="12dp"
-            android:background="@drawable/edittext_border"
-            android:layout_marginTop="12dp"
-            android:text="13112004"/>
+            android:layout_marginTop="12dp">
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword"
+                android:autofillHints="password"
+                android:importantForAutofill="yes"
+                android:paddingEnd="48dp"
+                android:padding="12dp"
+                android:background="@drawable/edittext_border" />
+
+            <ImageButton
+                android:id="@+id/btnTogglePassword"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@id/edtPassword"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_eye_closed"
+                android:contentDescription="Hiện/Ẩn mật khẩu" />
+        </RelativeLayout>
 
         <CheckBox
             android:id="@+id/chkRemember"

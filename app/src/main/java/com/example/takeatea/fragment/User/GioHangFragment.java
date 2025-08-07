@@ -1,6 +1,7 @@
 package com.example.takeatea.fragment.User;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,14 @@ import com.example.takeatea.model.Cart;
 import com.example.takeatea.model.Order;
 import com.example.takeatea.model.OrderDetail;
 import com.example.takeatea.model.Product;
-import com.example.takeatea.utils.FormatUtils;
 import com.example.takeatea.utils.SessionManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GioHangFragment extends Fragment {
 
@@ -80,7 +82,6 @@ public class GioHangFragment extends Fragment {
             @Override
             public void onEdit(Cart cart) {
                 Toast.makeText(getContext(), "TODO: Sửa số lượng", Toast.LENGTH_SHORT).show();
-                // TODO: mở dialog sửa nếu muốn
             }
 
             @Override
@@ -96,19 +97,27 @@ public class GioHangFragment extends Fragment {
     }
 
     private void datHang() {
+        btnDatHang.setEnabled(false); // tránh click 2 lần
+
         if (cartList == null || cartList.isEmpty()) {
             Toast.makeText(getContext(), "Giỏ hàng đang trống", Toast.LENGTH_SHORT).show();
+            btnDatHang.setEnabled(true);
             return;
         }
 
         int userId = session.getUserId();
         double totalAmount = 0;
 
-        // Tính tổng tiền
+        // Gộp lại theo productId
+        Map<Integer, Integer> productQtyMap = new HashMap<>();
         for (Cart cart : cartList) {
-            Product p = productDAO.getById(cart.getProductId());
+            int pid = cart.getProductId();
+            int qty = cart.getQuantity();
+            productQtyMap.put(pid, productQtyMap.getOrDefault(pid, 0) + qty);
+
+            Product p = productDAO.getById(pid);
             if (p != null) {
-                totalAmount += p.getPrice() * cart.getQuantity();
+                totalAmount += p.getPrice() * qty;
             }
         }
 
@@ -116,19 +125,27 @@ public class GioHangFragment extends Fragment {
         Order order = new Order(userId, date, totalAmount, "Đang xử lý");
 
         boolean orderCreated = orderDAO.insert(order);
-        int orderId = orderDAO.getLastOrderId(); // bạn cần có hàm này
+        int orderId = orderDAO.getLastOrderId();
 
         if (orderCreated && orderId != -1) {
-            // Thêm từng sản phẩm vào OrderDetail
             for (Cart cart : cartList) {
                 Product p = productDAO.getById(cart.getProductId());
                 if (p != null) {
-                    // Trừ tồn kho
-                    int newQty = p.getQuantity() - cart.getQuantity();
-                    productDAO.updateQuantity(p.getId(), newQty);
+                    int quantityTrongKho = p.getQuantity();
+                    int quantityDatHang = cart.getQuantity();
 
-                    // Thêm vào bảng chi tiết đơn
-                    OrderDetail detail = new OrderDetail(orderId, p.getId(), cart.getQuantity(), p.getPrice());
+                    // Đảm bảo trừ đúng số lượng 1 lần
+                    int quantityMoi = quantityTrongKho - quantityDatHang;
+                    if (quantityMoi < 0) quantityMoi = 0; // Tránh âm
+
+                    // Cập nhật tồn kho
+                    boolean updated = productDAO.updateQuantity(p.getId(), quantityMoi);
+
+                    // Ghi log kiểm tra
+                    android.util.Log.d("DEBUG", "Update SL: " + p.getName() + ", old: " + quantityTrongKho + ", new: " + quantityMoi);
+
+                    // Lưu chi tiết đơn hàng
+                    OrderDetail detail = new OrderDetail(orderId, p.getId(), quantityDatHang, p.getPrice());
                     orderDetailDAO.insert(detail);
                 }
             }
@@ -136,9 +153,13 @@ public class GioHangFragment extends Fragment {
             // Xóa giỏ
             cartDAO.clearCart(userId);
             Toast.makeText(getContext(), "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
-            loadCart(); // reload lại sau khi xóa
-        } else {
+            loadCart();
+        }
+        else {
             Toast.makeText(getContext(), "Đặt hàng thất bại!", Toast.LENGTH_SHORT).show();
         }
+
+        btnDatHang.setEnabled(true);
     }
+
 }

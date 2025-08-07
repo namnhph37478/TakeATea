@@ -50,6 +50,12 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
+            // Không cho phép dấu cách trong username
+            if (username.contains(" ")) {
+                Toast.makeText(this, "Tên đăng nhập không được chứa dấu cách!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             // Tạo đối tượng User (role mặc định là "user")
             User user = new User(username, password, fullname, phone, email, address, "user");
 

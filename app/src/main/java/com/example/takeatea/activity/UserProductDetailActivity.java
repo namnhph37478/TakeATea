@@ -10,14 +10,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.takeatea.R;
+import com.example.takeatea.adapter.ReviewAdapter;
 import com.example.takeatea.dao.CartDAO;
 import com.example.takeatea.dao.ProductDAO;
+import com.example.takeatea.dao.ReviewDAO;
 import com.example.takeatea.model.Cart;
 import com.example.takeatea.model.Product;
+import com.example.takeatea.model.Review;
 import com.example.takeatea.utils.FormatUtils;
 import com.example.takeatea.utils.SessionManager;
+
+import java.util.List;
 
 public class UserProductDetailActivity extends AppCompatActivity {
 
@@ -27,8 +34,11 @@ public class UserProductDetailActivity extends AppCompatActivity {
     private Button btnAddToCart;
     private ImageButton btnBack;
 
+    private RecyclerView recyclerViewReview;
+
     private ProductDAO productDAO;
     private CartDAO cartDAO;
+    private ReviewDAO reviewDAO;
     private SessionManager session;
 
     private int productId;
@@ -47,9 +57,11 @@ public class UserProductDetailActivity extends AppCompatActivity {
         edtQuantity = findViewById(R.id.edtQuantity);
         btnAddToCart = findViewById(R.id.btnAddToCart);
         btnBack = findViewById(R.id.btnBack);
+        recyclerViewReview = findViewById(R.id.recyclerViewReview);
 
         productDAO = new ProductDAO(this);
         cartDAO = new CartDAO(this);
+        reviewDAO = new ReviewDAO(this);
         session = new SessionManager(this);
 
         // Lấy product ID
@@ -73,12 +85,12 @@ public class UserProductDetailActivity extends AppCompatActivity {
         tvPrice.setText("Giá: " + FormatUtils.formatCurrency(currentProduct.getPrice()));
         tvQty.setText("Kho: " + currentProduct.getQuantity());
 
-        // TODO: Load ảnh nếu bạn có ảnh từ link hoặc tên file
+        // TODO: Load ảnh từ file nếu bạn có
 
-        // Nút quay lại
+        // Quay lại
         btnBack.setOnClickListener(v -> finish());
 
-        // Thêm vào giỏ hàng
+        // Thêm vào giỏ
         btnAddToCart.setOnClickListener(v -> {
             String quantityStr = edtQuantity.getText().toString().trim();
             if (quantityStr.isEmpty()) {
@@ -102,6 +114,7 @@ public class UserProductDetailActivity extends AppCompatActivity {
             boolean success = cartDAO.insertOrUpdate(cart);
 
             if (success) {
+                // Cập nhật số lượng tồn kho
                 int updatedQty = currentProduct.getQuantity() - quantity;
                 productDAO.updateQuantity(productId, updatedQty);
 
@@ -111,5 +124,15 @@ public class UserProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Hiển thị danh sách đánh giá
+        loadReviewList();
+    }
+
+    private void loadReviewList() {
+        List<Review> reviewList = reviewDAO.getReviewsByProduct(productId);
+        ReviewAdapter reviewAdapter = new ReviewAdapter(this, reviewList);
+        recyclerViewReview.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewReview.setAdapter(reviewAdapter);
     }
 }

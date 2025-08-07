@@ -8,7 +8,7 @@ import android.util.Log;
 public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "TakeATea.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 8;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -23,7 +23,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 "password TEXT NOT NULL, " +
                 "fullname TEXT, " +
                 "phone TEXT, " +
+                "email TEXT, " +
+                "address TEXT, " +
                 "role TEXT NOT NULL)");
+
 
         // Bảng Product
         db.execSQL("CREATE TABLE Product (" +
@@ -74,21 +77,24 @@ public class DbHelper extends SQLiteOpenHelper {
                 "quantity INTEGER, " +
                 "price REAL)");
 
-        // Bảng Review
         db.execSQL("CREATE TABLE Review (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "user_id INTEGER REFERENCES User(id), " +
                 "product_id INTEGER REFERENCES Product(id), " +
                 "content TEXT, " +
-                "rating INTEGER)");
+                "rating INTEGER, " +
+                "date TEXT)");
+
 
         // Bảng Contact
         db.execSQL("CREATE TABLE Contact (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userId INTEGER REFERENCES User(id), " +
-                "subject TEXT, " +
                 "message TEXT, " +
-                "createdAt TEXT)");
+                "createdAt TEXT, " +
+                "isFromUser INTEGER)");
+
+
 
         insertInitialData(db); // Thêm dữ liệu mẫu
     }
@@ -113,13 +119,16 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO PromotionProduct (promotionId, productId) VALUES (1, 1), (2, 2)");
 
         // Thêm đánh giá mẫu
-        db.execSQL("INSERT INTO Review (user_id, product_id, content, rating) VALUES " +
-                "(2, 1, 'Ngon và vừa miệng', 5)," +
-                "(2, 2, 'Hơi ngọt nhưng thơm', 4)");
+        db.execSQL("INSERT INTO Review (user_id, product_id, content, rating, date) VALUES " +
+                "(2, 1, 'Ngon và vừa miệng', 5, '2025-08-07')," +
+                "(2, 2, 'Hơi ngọt nhưng thơm', 4, '2025-08-06')");
+
 
         // Thêm liên hệ mẫu
-        db.execSQL("INSERT INTO Contact (userId, subject, message, createdAt) VALUES " +
-                "(2, 'Góp ý ứng dụng', 'Ứng dụng rất dễ sử dụng!', '2025-07-31 10:00:00')");
+        db.execSQL("INSERT INTO Contact (userId, message, createdAt, isFromUser) VALUES " +
+                "(2, 'Ứng dụng rất dễ sử dụng!', '2025-07-31 10:00:00', 1)," +
+                "(2, 'Cảm ơn bạn đã góp ý! Hệ thống sẽ tiếp thu.', '2025-07-31 10:01:00', 0)");
+
     }
 
     @Override

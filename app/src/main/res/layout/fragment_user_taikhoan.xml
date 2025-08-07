@@ -1,5 +1,4 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F9F9F9"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,44 +17,29 @@
             android:padding="12dp"
             android:gravity="center"
             android:background="#FFEB3B"
-            android:text="@string/user_account_title"
+            android:text="Tài khoản của bạn"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <!-- Nút chỉnh sửa thông tin -->
         <ImageButton
-            android:id="@+id/btnEdit"
+            android:id="@+id/btnEditProfile"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_edit"
-            android:contentDescription="@string/edit_info"/>
+            android:contentDescription="Sửa thông tin"/>
 
         <!-- Họ tên -->
         <TextView
-            android:text="@string/full_name"
+            android:text="Họ tên"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/txtAdminName"
-            android:layout_marginBottom="16dp"
-            android:layout_width="match_parent"
-            android:background="@drawable/edittext_border"
-            android:padding="12dp"
-            android:layout_height="wrap_content" />
-
-        <!-- Email -->
-        <TextView
-            android:text="@string/email"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/txtAdminEmail"
+            android:id="@+id/txtName"
             android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:background="@drawable/edittext_border"
@@ -64,42 +48,67 @@
 
         <!-- Số điện thoại -->
         <TextView
-            android:text="@string/phone"
+            android:text="Số điện thoại"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/txtAdminPhone"
+            android:id="@+id/txtPhone"
             android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
             android:background="@drawable/edittext_border"
             android:padding="12dp"
+            android:layout_height="wrap_content" />
+
+        <!-- Email -->
+        <TextView
+            android:text="Email"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
+            android:background="@drawable/edittext_border"
+            android:padding="12dp"
             android:layout_height="wrap_content" />
 
         <!-- Địa chỉ -->
         <TextView
-            android:text="@string/address"
+            android:text="Địa chỉ"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/txtAdminAddress"
+            android:id="@+id/txtAddress"
             android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:background="@drawable/edittext_border"
             android:padding="12dp"
             android:layout_height="wrap_content" />
 
+        <Button
+            android:id="@+id/btnChangePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đổi mật khẩu"
+            android:backgroundTint="#673AB7"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"/>
+
         <!-- Button: Đăng xuất -->
         <Button
             android:id="@+id/btnLogout"
-            android:text="@string/logout"
+            android:text="Đăng xuất"
             android:backgroundTint="#D32F2F"
             android:textColor="#FFFFFF"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 </ScrollView>
