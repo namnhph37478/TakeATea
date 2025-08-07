@@ -38,14 +38,5 @@
         android:layout_margin="12dp"
         android:padding="12dp" />
 
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:menu="@menu/menu_user_bottom"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@null"
-        app:itemTextColor="@color/black"
-        android:background="@android:color/white" />
+
 </LinearLayout>

@@ -10,7 +10,7 @@ import com.example.takeatea.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final int SPLASH_DURATION = 5000; // 5 giây
+    private static final int SPLASH_DURATION = 1000; // 5 giây
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

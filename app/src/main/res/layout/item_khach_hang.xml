@@ -38,15 +38,6 @@
             android:text="Địa chỉ: 123 Lê Lợi, Q.1"
             android:textSize="14sp" />
 
-        <!-- Trạng thái -->
-        <TextView
-            android:id="@+id/tvTrangThai"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Trạng thái: Hoạt động"
-            android:textColor="#388E3C"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
 
         <!-- Nút thao tác -->
         <LinearLayout

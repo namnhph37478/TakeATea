@@ -4,7 +4,9 @@
     <item
         android:id="@+id/menu_trang_chu"
         android:icon="@drawable/ic_home"
-        android:title="Trang chủ" />
+        android:title="Trang chủ"
+
+        />
 
     <item
         android:id="@+id/menu_gio_hang"
