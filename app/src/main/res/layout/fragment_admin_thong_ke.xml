@@ -82,12 +82,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/ic_order" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Chọn ngày:"
-                    android:textSize="16sp"
-                    android:layout_marginStart="8dp" />
+
             </LinearLayout>
 
             <!-- Biểu đồ doanh thu -->
@@ -99,12 +94,12 @@
                 android:textColor="#000"
                 android:layout_marginBottom="8dp" />
 
-            <ImageView
-                android:id="@+id/imgBieuDo"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chartRevenue"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitCenter"
+                android:layout_height="220dp"
                 android:layout_marginBottom="16dp" />
+
 
             <!-- Top 3 món bán chạy -->
             <TextView

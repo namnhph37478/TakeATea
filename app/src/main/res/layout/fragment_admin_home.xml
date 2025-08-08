@@ -21,10 +21,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvProductAdmin"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/tvTitle"
+        android:layout_above="@id/btnThemSanPhamAdmin"
         android:layout_marginTop="12dp"
         android:padding="8dp" />
+
 
     <!-- Nút thêm sản phẩm -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

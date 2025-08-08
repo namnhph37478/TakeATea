@@ -52,17 +52,19 @@ public class ReviewDialog extends Dialog {
 
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-            // Tạo đối tượng Review và lưu vào DB
             Review review = new Review(userId, productId, rating, comment, date);
             boolean success = reviewDAO.insertReview(review);
 
             if (success) {
                 Toast.makeText(getContext(), "Cảm ơn bạn đã đánh giá!", Toast.LENGTH_SHORT).show();
-                ((Activity) getContext()).finish(); // ✅ Đóng activity hiện tại → quay về Fragment trước
+
+                // ✅ Chỉ đóng Activity nếu context là Activity
+                if (getContext() instanceof Activity) {
+                    ((Activity) getContext()).finish();
+                }
+
                 dismiss();
-
-
-        } else {
+            } else {
                 Toast.makeText(getContext(), "Đánh giá thất bại hoặc đã tồn tại!", Toast.LENGTH_SHORT).show();
             }
         });

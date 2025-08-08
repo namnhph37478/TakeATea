@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -31,6 +35,15 @@
             android:exported="false"/>
 
         <activity android:name=".activity.OrderDetailActivity"
+            android:exported="false"/>
+
+        <activity android:name=".activity.MainAdminActivity"
+            android:exported="false"/>
+        <activity android:name=".activity.ThemMonActivity"
+            android:exported="false"/>
+        <activity android:name=".activity.ThemKhuyenMaiActivity"
+            android:exported="false"/>
+        <activity android:name=".fragment.Admin.ChiTietKhachHangActivity"
             android:exported="false"/>
     </application>
 

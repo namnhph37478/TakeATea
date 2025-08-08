@@ -91,15 +91,16 @@
                 android:padding="12dp"
                 android:inputType="numberDecimal" />
 
-            <!-- Loại món -->
-            <Spinner
-                android:id="@+id/spinnerLoaiMon"
-                android:layout_width="379dp"
-                android:layout_height="64dp"
+            <!-- số luong2j -->
+            <EditText
+                android:id="@+id/edtSoLuong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Số Lượng"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/edittext_border"
-                android:padding="12dp" />
-
+                android:padding="12dp"
+                android:inputType="numberDecimal" />
             <!-- Nút Thêm -->
             <Button
                 android:id="@+id/btnThemMon"

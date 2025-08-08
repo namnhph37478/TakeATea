@@ -9,6 +9,8 @@ import com.example.takeatea.db.DbHelper;
 import com.example.takeatea.model.Order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrderDAO {
 
@@ -114,6 +116,57 @@ public class OrderDAO {
         db.close();
         return order;
     }
+
+    // Đếm đơn theo ngày (orderDate TEXT 'yyyy-MM-dd' hoặc có kèm giờ)
+    public int countOrdersByDateText(String yyyyMMdd) {
+        int count = 0;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        // an toàn với chuỗi có kèm giờ: so sánh substr(orderDate,1,10)
+        Cursor c = db.rawQuery(
+                "SELECT COUNT(*) FROM OrderTable WHERE substr(orderDate,1,10) = ?",
+                new String[]{yyyyMMdd}
+        );
+        if (c.moveToFirst()) count = c.getInt(0);
+        c.close();
+        db.close();
+        return count;
+    }
+
+    // Tổng doanh thu theo ngày (totalAmount REAL)
+    public double sumRevenueByDateText(String yyyyMMdd) {
+        double sum = 0;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT IFNULL(SUM(totalAmount),0) FROM OrderTable WHERE substr(orderDate,1,10) = ?",
+                new String[]{yyyyMMdd}
+        );
+        if (c.moveToFirst()) sum = c.getDouble(0);
+        c.close();
+        db.close();
+        return sum;
+    }
+
+    // Map doanh thu theo ngày trong khoảng [startDate, endDate], định dạng yyyy-MM-dd
+    public Map<String, Double> sumRevenueGroupByDate(String startDate, String endDate) {
+        Map<String, Double> map = new HashMap<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT substr(orderDate,1,10) AS d, IFNULL(SUM(totalAmount),0) " +
+                        "FROM OrderTable " +
+                        "WHERE substr(orderDate,1,10) BETWEEN ? AND ? " +
+                        "GROUP BY substr(orderDate,1,10) " +
+                        "ORDER BY d",
+                new String[]{startDate, endDate}
+        );
+        while (c.moveToNext()) {
+            map.put(c.getString(0), c.getDouble(1));
+        }
+        c.close();
+        db.close();
+        return map;
+    }
+
+
 
     // Helper: lấy đối tượng Order từ Cursor
     private Order getOrderFromCursor(Cursor cursor) {

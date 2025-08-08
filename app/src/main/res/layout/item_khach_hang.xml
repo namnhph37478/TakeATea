@@ -46,13 +46,6 @@
             android:layout_height="wrap_content"
             android:gravity="end">
 
-            <ImageButton
-                android:id="@+id/btnEditKhach"
-                android:layout_width="59dp"
-                android:layout_height="59dp"
-                android:src="@android:drawable/ic_menu_edit"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Sửa" />
 
             <ImageButton
                 android:id="@+id/btnDeleteKhach"

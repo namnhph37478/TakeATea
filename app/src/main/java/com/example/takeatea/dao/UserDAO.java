@@ -23,10 +23,12 @@ public class UserDAO {
     public User login(String username, String password) {
         String sql = "SELECT * FROM User WHERE username=? AND password=?";
         Cursor cursor = db.rawQuery(sql, new String[]{username, password});
+        User user = null;
         if (cursor.moveToFirst()) {
-            return getUserFromCursor(cursor);
+            user = getUserFromCursor(cursor);
         }
-        return null;
+        cursor.close();
+        return user;
     }
 
     // Đăng ký
@@ -47,10 +49,12 @@ public class UserDAO {
     // Lấy user theo ID
     public User getUserById(int id) {
         Cursor cursor = db.rawQuery("SELECT * FROM User WHERE id=?", new String[]{String.valueOf(id)});
+        User user = null;
         if (cursor.moveToFirst()) {
-            return getUserFromCursor(cursor);
+            user = getUserFromCursor(cursor);
         }
-        return null;
+        cursor.close();
+        return user;
     }
 
     // Cập nhật thông tin người dùng
@@ -75,6 +79,21 @@ public class UserDAO {
                 list.add(getUserFromCursor(cursor));
             } while (cursor.moveToNext());
         }
+        cursor.close();
+        return list;
+    }
+
+    // ✅ Lấy tất cả user theo role (ví dụ: "user" hoặc "admin")
+    public ArrayList<User> getAllUsersByRole(String role) {
+        ArrayList<User> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM User WHERE role = ? ORDER BY fullname ASC",
+                new String[]{role});
+        if (cursor.moveToFirst()) {
+            do {
+                list.add(getUserFromCursor(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
         return list;
     }
 
@@ -87,13 +106,12 @@ public class UserDAO {
     // Lấy user theo tên
     public User getUserByUsername(String username) {
         Cursor cursor = db.rawQuery("SELECT * FROM User WHERE username = ?", new String[]{username});
-        if (cursor != null && cursor.moveToFirst()) {
-            User user = getUserFromCursor(cursor);
-            cursor.close();
-            return user;
+        User user = null;
+        if (cursor.moveToFirst()) {
+            user = getUserFromCursor(cursor);
         }
-        if (cursor != null) cursor.close();
-        return null;
+        cursor.close();
+        return user;
     }
 
     // Hàm tiện ích lấy user từ Cursor
@@ -104,8 +122,8 @@ public class UserDAO {
         user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
         user.setFullname(cursor.getString(cursor.getColumnIndexOrThrow("fullname")));
         user.setPhone(cursor.getString(cursor.getColumnIndexOrThrow("phone")));
-        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("email")));     // ✅ bổ sung
-        user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address"))); // ✅ bổ sung
+        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow("email")));
+        user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow("address")));
         user.setRole(cursor.getString(cursor.getColumnIndexOrThrow("role")));
         return user;
     }
