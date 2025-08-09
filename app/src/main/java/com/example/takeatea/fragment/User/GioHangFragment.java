@@ -20,6 +20,8 @@ import com.example.takeatea.dao.CartDAO;
 import com.example.takeatea.dao.OrderDAO;
 import com.example.takeatea.dao.OrderDetailDAO;
 import com.example.takeatea.dao.ProductDAO;
+import com.example.takeatea.dialog.DialogSuaMon;
+import com.example.takeatea.dialog.DialogUserEditCart;
 import com.example.takeatea.model.Cart;
 import com.example.takeatea.model.Order;
 import com.example.takeatea.model.OrderDetail;
@@ -81,9 +83,12 @@ public class GioHangFragment extends Fragment {
         adapter = new CartAdapter(getContext(), cartList, new CartAdapter.CartItemListener() {
             @Override
             public void onEdit(Cart cart) {
-                Toast.makeText(getContext(), "TODO: Sửa số lượng", Toast.LENGTH_SHORT).show();
+                DialogUserEditCart.show(
+                        requireContext(),
+                        cart,
+                        () -> loadCart()
+                );
             }
-
             @Override
             public void onDelete(Cart cart) {
                 cartDAO.deleteItem(cart.getUserId(), cart.getProductId());

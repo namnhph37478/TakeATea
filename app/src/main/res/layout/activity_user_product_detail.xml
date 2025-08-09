@@ -99,6 +99,17 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="8dp" />
 
+            <TextView
+                android:id="@+id/tvNoReviewHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chưa có đánh giá nào."
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:gravity="start" />
+
+
             <!-- Danh sách đánh giá -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewReview"

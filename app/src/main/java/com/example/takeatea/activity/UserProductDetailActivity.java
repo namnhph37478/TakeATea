@@ -12,21 +12,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.takeatea.R;
+import com.example.takeatea.adapter.ReviewAdapter;
 import com.example.takeatea.dao.CartDAO;
 import com.example.takeatea.dao.ProductDAO;
+import com.example.takeatea.dao.ReviewDAO;
 import com.example.takeatea.model.Cart;
 import com.example.takeatea.model.Product;
+import com.example.takeatea.model.Review;
 import com.example.takeatea.utils.FormatUtils;
 import com.example.takeatea.utils.SessionManager;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserProductDetailActivity extends AppCompatActivity {
 
     private ImageView imgProduct;
     private TextView tvName, tvPrice, tvQty;
+
+    // (NEW) UI cho review – nếu layout không có, code sẽ tự bỏ qua
+    private TextView tvReviewTitle, tvNoReviewHint;
+    private RecyclerView rvReviews;
+
     private EditText edtQuantity;
     private Button btnAddToCart;
     private ImageButton btnBack;
@@ -34,6 +46,11 @@ public class UserProductDetailActivity extends AppCompatActivity {
     private ProductDAO productDAO;
     private CartDAO cartDAO;
     private SessionManager session;
+
+    // (NEW) DAO + adapter cho review
+    private ReviewDAO reviewDAO;
+    private ReviewAdapter reviewAdapter;
+    private final List<Review> reviewList = new ArrayList<>();
 
     private int productId;
     private Product currentProduct;
@@ -43,7 +60,7 @@ public class UserProductDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_product_detail);
 
-        // Ánh xạ view
+        // Ánh xạ view (phần cũ)
         imgProduct   = findViewById(R.id.imgProduct);
         tvName       = findViewById(R.id.tvProductName);
         tvPrice      = findViewById(R.id.tvProductPrice);
@@ -52,10 +69,16 @@ public class UserProductDetailActivity extends AppCompatActivity {
         btnAddToCart = findViewById(R.id.btnAddToCart);
         btnBack      = findViewById(R.id.btnBack);
 
+        // (NEW) Ánh xạ review nếu layout có
+        tvReviewTitle   = findViewById(R.id.tvReviewTitle);        // TextView "Đánh giá sản phẩm"
+        rvReviews       = findViewById(R.id.recyclerViewReview);    // RecyclerView danh sách đánh giá
+        tvNoReviewHint  = findViewById(R.id.tvNoReviewHint);       // TextView gợi ý "Chưa có đánh giá"
+
         // DAO & Session
         productDAO = new ProductDAO(this);
         cartDAO    = new CartDAO(this);
         session    = new SessionManager(this);
+        reviewDAO  = new ReviewDAO(this);
 
         // Lấy productId từ Intent
         productId = getIntent().getIntExtra("product_id", -1);
@@ -73,20 +96,22 @@ public class UserProductDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // Hiển thị thông tin sản phẩm
+        // Hiển thị thông tin sản phẩm (phần cũ)
         tvName.setText(currentProduct.getName());
         tvPrice.setText("Giá: " + FormatUtils.formatCurrency(currentProduct.getPrice()));
         tvQty.setText("Kho: " + currentProduct.getQuantity());
-
-        // Hiển thị ảnh
         loadImage(imgProduct, currentProduct.getImage());
 
-        // Nút quay lại
+        // Nút quay lại + thêm giỏ (phần cũ)
         btnBack.setOnClickListener(v -> finish());
-
-        // Nút thêm vào giỏ hàng
         btnAddToCart.setOnClickListener(v -> addToCart());
+
+        // (NEW) Thiết lập & nạp danh sách đánh giá nếu có UI
+        setupReviewSectionIfExists();
+        loadReviewsIfExists();
     }
+
+    // ------------------------ PHẦN CŨ: thêm vào giỏ ------------------------
 
     private void addToCart() {
         String quantityStr = edtQuantity.getText().toString().trim();
@@ -125,9 +150,9 @@ public class UserProductDetailActivity extends AppCompatActivity {
 
     /**
      * Hiển thị ảnh theo đường dẫn:
-     * - Nếu là URI (content:// hoặc file://) → đọc stream
-     * - Nếu là tên file drawable → tìm resource
-     * - Nếu rỗng hoặc lỗi → dùng ảnh mặc định
+     * - URI (content://, file://) → đọc stream
+     * - Tên file drawable → tìm resource
+     * - Rỗng/lỗi → ảnh mặc định
      */
     private void loadImage(ImageView imageView, String imagePath) {
         int placeholder = R.drawable.ic_tea_logo;
@@ -168,6 +193,35 @@ public class UserProductDetailActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             imageView.setImageResource(placeholder);
+        }
+    }
+
+    // ------------------------ PHẦN MỚI: hiển thị đánh giá ------------------------
+
+    /** Khởi tạo adapter/RecyclerView cho review nếu layout có. */
+    private void setupReviewSectionIfExists() {
+        if (rvReviews == null) return; // layout chưa có phần review
+
+        rvReviews.setLayoutManager(new LinearLayoutManager(this));
+        reviewAdapter = new ReviewAdapter(this, reviewList);
+        rvReviews.setAdapter(reviewAdapter);
+
+        if (tvReviewTitle != null) {
+            tvReviewTitle.setText("Đánh giá sản phẩm");
+        }
+    }
+
+    /** Nạp dữ liệu đánh giá theo productId nếu UI review tồn tại. */
+    private void loadReviewsIfExists() {
+        if (rvReviews == null) return;
+
+        reviewList.clear();
+        reviewList.addAll(reviewDAO.getReviewsByProduct(productId)); // đảm bảo ReviewDAO.getByProductId(productId) đã trả list theo cột (user_id, product_id, content, rating, date)
+        reviewAdapter.notifyDataSetChanged();
+
+        // Gợi ý "chưa có đánh giá"
+        if (tvNoReviewHint != null) {
+            tvNoReviewHint.setText(reviewList.isEmpty() ? "Chưa có đánh giá nào." : "");
         }
     }
 }
