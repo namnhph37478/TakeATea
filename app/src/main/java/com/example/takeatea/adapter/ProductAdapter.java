@@ -24,6 +24,21 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductVH> {
 
+    // ====== NEW: optional listeners for admin screens ======
+    public interface OnProductClick {
+        void onClick(Product p);
+    }
+    public interface OnProductLongClick {
+        void onLongClick(Product p);
+    }
+
+    private OnProductClick onProductClick;           // optional
+    private OnProductLongClick onProductLongClick;   // optional
+
+    public void setOnProductClick(OnProductClick l) { this.onProductClick = l; }
+    public void setOnProductLongClick(OnProductLongClick l) { this.onProductLongClick = l; }
+    // ====== END NEW ======
+
     private final Context context;
     private final List<Product> productList;
 
@@ -46,15 +61,32 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         h.tvName.setText(p.getName());
         h.tvPrice.setText("Giá: " + FormatUtils.formatCurrency(p.getPrice()));
         h.tvQty.setText("Số lượng: " + p.getQuantity());
-
         loadImage(h.imgProduct, p.getImage());
 
-        // Mở chi tiết sản phẩm khi click item
+        // ====== UPDATED: click behavior ======
         h.itemView.setOnClickListener(v -> {
-            Intent i = new Intent(context, UserProductDetailActivity.class);
-            i.putExtra("product_id", p.getId());
-            context.startActivity(i);
+            if (onProductClick != null) {
+                // Admin (hoặc nơi khác) đã set listener -> gọi custom
+                onProductClick.onClick(p);
+            } else {
+                // Hành vi mặc định (giữ nguyên): mở màn chi tiết cho user
+                Intent i = new Intent(context, UserProductDetailActivity.class);
+                i.putExtra("product_id", p.getId());
+                context.startActivity(i);
+            }
         });
+
+        // ====== NEW: long click for admin edit (optional) ======
+        if (onProductLongClick != null) {
+            h.itemView.setOnLongClickListener(v -> {
+                onProductLongClick.onLongClick(p);
+                return true;
+            });
+        } else {
+            // bảo đảm không giữ listener cũ khi bị recycle
+            h.itemView.setOnLongClickListener(null);
+        }
+        // ====== END UPDATED ======
     }
 
     @Override
@@ -64,7 +96,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     // -------- Helpers --------
     private void loadImage(ImageView imageView, String imagePath) {
-        // Ảnh mặc định
         int placeholder = R.drawable.ic_tea_logo;
 
         try {
@@ -75,7 +106,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             String path = imagePath.trim();
 
-            // 1) Ảnh từ URI (admin chọn từ máy) -> content:// hoặc file://
+            // 1) Ảnh từ URI
             if (path.startsWith("content://") || path.startsWith("file://")) {
                 Uri uri = Uri.parse(path);
                 try (InputStream is = context.getContentResolver().openInputStream(uri)) {
@@ -89,13 +120,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 return;
             }
 
-            // 2) Ảnh đặt theo tên file trong drawable (vd: image_trasua1.png)
+            // 2) Ảnh từ drawable theo tên
             String name = path
                     .replace(".png", "")
                     .replace(".jpg", "")
                     .replace(".jpeg", "")
                     .replace(".webp", "")
-                    .replace("-", "_"); // phòng tên có dấu '-'
+                    .replace("-", "_");
 
             int resId = context.getResources()
                     .getIdentifier(name, "drawable", context.getPackageName());

@@ -20,22 +20,24 @@
         android:gravity="center" />
 
     <!-- RecyclerView hiển thị danh sách khuyến mãi -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvKhuyenMai"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp" />
 
     <!-- Nút thêm mã khuyến mãi -->
+
     <Button
         android:id="@+id/btnThemKhuyenMai"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm mã khuyến mãi"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#424242"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp" />
+        android:text="Thêm mã khuyến mãi"
+        android:textColor="#FFFFFF" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvKhuyenMai"
+        android:layout_width="match_parent"
+        android:layout_height="572dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1" />
 
 
 </LinearLayout>
